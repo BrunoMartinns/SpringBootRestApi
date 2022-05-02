@@ -1,5 +1,7 @@
 package br.com.projetoVivere.bibliotecasb.controllers;
 
+import java.time.Instant;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -25,7 +27,9 @@ public class ClientesControllers {
 	
 	@PostMapping
 	public @ResponseBody Clientes novoCliente (Clientes clientes) {
-		clientesRepository.save(clientes);
+		Date date = Date.from(Instant.now());
+		clientes.setDataCadastro(date);
+		clientes = clientesRepository.save(clientes);
 		return clientes;
 	}
 	
@@ -45,7 +49,9 @@ public class ClientesControllers {
 	//Alterar cliente
 	@PutMapping
 	public Clientes alterarClientes(Clientes clientes) {
-		clientesRepository.save(clientes);
+		Date date = Date.from(Instant.now());
+		clientes.setDataCadastro(date);
+		clientes = clientesRepository.save(clientes);
 		return clientes;
 	}
 	

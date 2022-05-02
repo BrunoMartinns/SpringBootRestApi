@@ -1,5 +1,7 @@
 package br.com.projetoVivere.bibliotecasb.controllers;
 
+import java.time.Instant;
+import java.util.Date;
 import java.util.Optional;
 
 import javax.transaction.Transactional;
@@ -38,6 +40,9 @@ public class LivrosCaixaControllers {
 	public LivrosCaixa editarLivrosCaixa(LivrosCaixa livrosCaixa) {
 		livrosCaixaRepository.findById(livrosCaixa.getId());
 		Clientes clientes = clientesRepository.findById(livrosCaixa.getClientes().getId());
+		Date dt = Date.from(Instant.now());
+		clientes.setDataCadastro(dt);
+		livrosCaixa = livrosCaixaRepository.save(livrosCaixa);
 		return livrosCaixaRepository.save(livrosCaixa);
 	}
 	

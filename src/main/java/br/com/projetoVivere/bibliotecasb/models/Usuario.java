@@ -38,10 +38,10 @@ public class Usuario implements Serializable {
 	@Column(name="email")
 	private String email;
 	
-	@Column(name="perfil")
+	@Column(name="perfil", columnDefinition = "enum('A','O')")
 	private String perfil;
 	
-	@Column(name="status")
+	@Column(name="status", columnDefinition = "enum('A','C')")
 	private String status;
 	
 	public Usuario(String nome2) {

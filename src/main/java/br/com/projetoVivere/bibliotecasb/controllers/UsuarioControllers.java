@@ -1,5 +1,7 @@
 package br.com.projetoVivere.bibliotecasb.controllers;
 
+import java.time.Instant;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 
@@ -17,6 +20,7 @@ import br.com.projetoVivere.bibliotecasb.models.Usuario;
 import br.com.projetoVivere.bibliotecasb.repository.UsuarioRepository;
 
 @Controller
+@RequestMapping("/api/usuario")
 public class UsuarioControllers {
 	
 	@Autowired
@@ -24,13 +28,17 @@ public class UsuarioControllers {
 	
 	@PostMapping
 	public @ResponseBody Usuario novoUsuario(Usuario usuario) {
-		usuarioRepository.save(usuario);
+		Date date = Date.from(Instant.now());
+		usuario.setDataCadastro(date);
+		usuario = usuarioRepository.save(usuario);
 		return usuario;
 	}
 	
 	@PutMapping
 	public Usuario editarUsuario(Usuario usuario) {
-		usuarioRepository.save(usuario);
+		Date date = Date.from(Instant.now());
+		usuario.setDataCadastro(date);
+		usuario = usuarioRepository.save(usuario);
 		return usuario;
 	}
 	
