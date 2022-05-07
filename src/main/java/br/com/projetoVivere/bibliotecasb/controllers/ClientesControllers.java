@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -35,14 +36,18 @@ public class ClientesControllers {
 	
 	
 	//Obter a lista de Clientes
-	public List<Clientes> obterClientes() {
-		return clientesRepository.findAll();
+	@GetMapping(path="/all")
+	public ResponseEntity<List<Clientes>> obterClientes() {
+		List<Clientes> clients = clientesRepository.findAll();
+		return ResponseEntity.ok().body(clients);
 	}
 	
 	//Obter a lista de Clientes por ID
 	@GetMapping(path="/{id}")
-	public Optional<Clientes> obterClientesId(@PathVariable(value= "id") long id) {
-		return clientesRepository.findById((int) id);
+	public ResponseEntity<Clientes> obterClientesId(@PathVariable(value= "id") int id) {
+		Clientes clients = clientesRepository.findById(id).orElse(null);
+		return ResponseEntity.ok().body(clients);
+
 		
 	}
 	
@@ -57,18 +62,21 @@ public class ClientesControllers {
 	
 	//Deletar cliente
 	@DeleteMapping(path="/{id}")
-	public void deletarClientes(@PathVariable(value= "id") long id) {
-		clientesRepository.deleteById((int) id);
+	public ResponseEntity deletarClientes(@PathVariable(value= "id") int id) {
+		clientesRepository.deleteById( id);
+		return ResponseEntity.noContent().build();
 	}
 	
 	@GetMapping(path="/{cpfCnpj}")
-	public List<Clientes> obterClientesCpfCnpj(@PathVariable(value= "cpfCnpj")String cpfCnpj) {
-		return clientesRepository.findByCpfCnpj(cpfCnpj);
+	public ResponseEntity<Clientes> obterClientesCpfCnpj(@PathVariable(value= "cpfCnpj")String cpfCnpj) {
+		Clientes clients = (Clientes) clientesRepository.findByCpfCnpj(cpfCnpj);
+		return ResponseEntity.ok(clients);
 	}
 	
 	@GetMapping(path="/{cidade}")
-	public List<Clientes> obterClientesCidade(@PathVariable(value= "cidade")String cidade){
-		return clientesRepository.findByCidade(cidade);
+	public ResponseEntity<Clientes> obterClientesCidade(@PathVariable(value= "cidade")String cidade){
+		Clientes clients = (Clientes) clientesRepository.findByCidade(cidade);
+		return ResponseEntity.ok(clients);
 	}
 	
 

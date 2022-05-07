@@ -6,14 +6,9 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 
 import br.com.projetoVivere.bibliotecasb.models.Usuario;
@@ -35,26 +30,48 @@ public class UsuarioControllers {
 	}
 	
 	@PutMapping
-	public Usuario editarUsuario(Usuario usuario) {
+	public ResponseEntity<Usuario> editarUsuario(Usuario usuario) {
 		Date date = Date.from(Instant.now());
 		usuario.setDataCadastro(date);
-		usuario = usuarioRepository.save(usuario);
-		return usuario;
+		Usuario user = usuarioRepository.save(usuario);
+		return ResponseEntity.ok().body(user);
 	}
 	
 	@DeleteMapping(path="/{id}")
-	public void deletarUsuario(@PathVariable(value= "id") long id) {
+	public ResponseEntity deletarUsuario(@PathVariable(value= "id") int id) {
 		usuarioRepository.deleteById((int) id);
+		return ResponseEntity.noContent().build();
 	}
 	
 	@GetMapping(path="/{id}")
-	public Optional<Usuario> obterUsuarioId(@PathVariable(value= "id") long id){
-		return usuarioRepository.findById((int)id);
+	public ResponseEntity<Usuario> obterUsuarioPorId(@PathVariable(value= "id") int id){
+		Usuario user = usuarioRepository.findById(id).orElse(null);
+		return ResponseEntity.ok(user);
 	}
 	
-	@GetMapping(path="/{nome}")
-	public Optional<Usuario> obterUsuarioId(@PathVariable(value= "nome") String nome){
-		return usuarioRepository.findByNome(nome);
+	@GetMapping()
+	public ResponseEntity<Usuario> obterUsuarioPorNome(@RequestParam(value="nome") String nome){
+		Usuario user = usuarioRepository.findByNome(nome).orElse(null);
+		return ResponseEntity.ok(user);
 	}
 
+	@GetMapping("/login")
+	public String loginUser(@RequestBody Usuario usuario) {
+		Usuario login = usuarioRepository.findByLoginAndSenha(usuario.getLogin(), usuario.getSenha());
+		if (login != null) {
+			if (login.getStatus().equals("A")) {
+				return "Logged in";
+			} else {
+				return "Usuario inativo!";
+			}
+		} else {
+			return "Usuario ou senha Invalida!";
+		}
+	}
+
+	@GetMapping("/all")
+	public ResponseEntity<List <Usuario>> todosUsuarios(){
+		List<Usuario> user = usuarioRepository.findAll();
+		return ResponseEntity.ok().body(user);
+	}
 }

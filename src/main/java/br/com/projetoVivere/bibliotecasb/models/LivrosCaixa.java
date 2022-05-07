@@ -3,23 +3,19 @@ package br.com.projetoVivere.bibliotecasb.models;
 import java.io.Serializable;
 import java.util.Date;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
+@Table(name="livrosCaixa")
 public class LivrosCaixa implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
 	
 	@Column(name="dataLancamento")
@@ -88,37 +84,26 @@ public class LivrosCaixa implements Serializable {
 		return type;
 	}
 
-	/**
-	 * @param type the type to set
-	 */
+
 	public void setType(String type) {
 		this.type = type;
 	}
 
-	/**
-	 * @return the valor
-	 */
+
 	public float getValor() {
 		return valor;
 	}
 
-	/**
-	 * @param valor the valor to set
-	 */
+
 	public void setValor(float valor) {
 		this.valor = valor;
 	}
 
-	/**
-	 * @return the clientes
-	 */
+
 	public Clientes getClientes() {
 		return clientes;
 	}
 
-	/**
-	 * @param clientes the clientes to set
-	 */
 	public void setClientes(Clientes clientes) {
 		this.clientes = clientes;
 	}
@@ -128,14 +113,7 @@ public class LivrosCaixa implements Serializable {
 	public LivrosCaixa () {
 		
 	}
-	/**
-	 * @param id
-	 * @param datalancamento
-	 * @param descricao
-	 * @param type
-	 * @param valor
-	 * @param clientes
-	 */
+
 	public LivrosCaixa(int id, Date datalancamento, String descricao, String type, float valor, Clientes clientes) {
 		this.id = id;
 		this.datalancamento = datalancamento;
@@ -145,13 +123,7 @@ public class LivrosCaixa implements Serializable {
 		this.clientes = clientes;
 	}
 
-	/**
-	 * @param datalancamento
-	 * @param descricao
-	 * @param type
-	 * @param valor
-	 * @param clientes
-	 */
+
 	public LivrosCaixa(Date datalancamento, String descricao, String type, float valor, Clientes clientes) {
 		super();
 		this.datalancamento = datalancamento;
