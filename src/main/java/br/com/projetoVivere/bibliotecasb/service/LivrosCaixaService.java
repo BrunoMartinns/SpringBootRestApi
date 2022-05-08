@@ -8,15 +8,11 @@ import br.com.projetoVivere.bibliotecasb.repository.ClientesRepository;
 import br.com.projetoVivere.bibliotecasb.repository.LivrosCaixaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
 
 import javax.transaction.Transactional;
 import java.time.Instant;
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class LivrosCaixaService {
@@ -28,9 +24,9 @@ public class LivrosCaixaService {
 
 
     @Transactional
-    public LivrosCaixa inserirLivrosCaixa(LivrosCaixaDTO livrosCaixaDTO){
-        Clientes clientes = clientesRepository.findById(livrosCaixaDTO.getClientes()).orElseThrow(() -> new ResourceNotFoundException("Cliente nao encontrado!"));
-        LivrosCaixa caixaLivros = new LivrosCaixa(livrosCaixaDTO.getDatalancamento(), livrosCaixaDTO.getDescricao(), livrosCaixaDTO.getType(), livrosCaixaDTO.getValor(), clientes);
+    public LivrosCaixa inserirLivrosCaixa(LivrosCaixaDTO caixa){
+        Clientes clientes = clientesRepository.findById(caixa.getClientes()).orElseThrow(() -> new ResourceNotFoundException("Cliente nao encontrado!"));
+        LivrosCaixa caixaLivros = new LivrosCaixa(caixa.getDatalancamento(), caixa.getDescricao(), caixa.getTipo(), caixa.getValor(), clientes);
         caixaLivros = livrosCaixaRepository.save(caixaLivros);
         return caixaLivros;
     }
@@ -39,7 +35,7 @@ public class LivrosCaixaService {
     public LivrosCaixa editarLivrosCaixa(LivrosCaixaDTO livrosCaixaDTO) {
         livrosCaixaRepository.findById(livrosCaixaDTO.getId()).orElseThrow(() -> new ResourceNotFoundException("LivrosCaixa nao encontrado!"));
         Clientes clientes = clientesRepository.findById(livrosCaixaDTO.getClientes()).orElseThrow(() -> new ResourceNotFoundException("Cliente nao encontrado!"));
-        LivrosCaixa caixaLivros = new LivrosCaixa(livrosCaixaDTO.getDatalancamento(), livrosCaixaDTO.getDescricao(), livrosCaixaDTO.getType(), livrosCaixaDTO.getValor(), clientes);
+        LivrosCaixa caixaLivros = new LivrosCaixa(livrosCaixaDTO.getDatalancamento(), livrosCaixaDTO.getDescricao(), livrosCaixaDTO.getTipo(), livrosCaixaDTO.getValor(), clientes);
         Date dt = Date.from(Instant.now());
         clientes.setDataCadastro(dt);
         caixaLivros = livrosCaixaRepository.save(caixaLivros);
@@ -56,10 +52,8 @@ public class LivrosCaixaService {
     }
 
     public List<LivrosCaixa> ByclientId(int clientes) {
-
         return this.livrosCaixaRepository.findByClientes(clientes);
     }
-
 
 
 

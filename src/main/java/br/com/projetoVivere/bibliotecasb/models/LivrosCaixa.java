@@ -26,7 +26,7 @@ public class LivrosCaixa implements Serializable {
 	private String descricao;
 	
 	@Column(name="tipo", columnDefinition = "enum('D','C')", nullable = false, length = 1)
-	private String type;
+	private String tipo;
 	
 	@Column(name="valor", nullable = false, columnDefinition = "decimal(12,2)")
 	private float valor;
@@ -35,70 +35,46 @@ public class LivrosCaixa implements Serializable {
 	@JsonIgnore
 	private Clientes clientes;
 
-	/**
-	 * @return the id
-	 */
+
 	public int getId() {
 		return id;
 	}
 
-	/**
-	 * @param id the id to set
-	 */
 	public void setId(int id) {
 		this.id = id;
 	}
 
-	/**
-	 * @return the datalancamento
-	 */
 	public Date getDatalancamento() {
 		return datalancamento;
 	}
 
-	/**
-	 * @param datalancamento the datalancamento to set
-	 */
 	public void setDatalancamento(Date datalancamento) {
 		this.datalancamento = datalancamento;
 	}
 
-	/**
-	 * @return the descricao
-	 */
 	public String getDescricao() {
 		return descricao;
 	}
 
-	/**
-	 * @param descricao the descricao to set
-	 */
 	public void setDescricao(String descricao) {
 		this.descricao = descricao;
 	}
 
-	/**
-	 * @return the type
-	 */
-	public String getType() {
-		return type;
+	public String getTipo() {
+		return tipo;
 	}
 
-
-	public void setType(String type) {
-		this.type = type;
+	public void setTipo(String tipo) {
+		this.tipo = tipo;
 	}
-
 
 	public float getValor() {
 		return valor;
 	}
 
-
 	public void setValor(float valor) {
 		this.valor = valor;
 	}
-
 
 	public Clientes getClientes() {
 		return clientes;
@@ -114,21 +90,21 @@ public class LivrosCaixa implements Serializable {
 		
 	}
 
-	public LivrosCaixa(int id, Date datalancamento, String descricao, String type, float valor, Clientes clientes) {
+	public LivrosCaixa(Integer id, Date datalancamento, String descricao, String tipo, float valor, Clientes clientes) {
 		this.id = id;
 		this.datalancamento = datalancamento;
 		this.descricao = descricao;
-		this.type = type;
+		this.tipo = tipo;
 		this.valor = valor;
 		this.clientes = clientes;
 	}
 
 
-	public LivrosCaixa(Date datalancamento, String descricao, String type, float valor, Clientes clientes) {
+	public LivrosCaixa(Date datalancamento, String descricao, String tipo, float valor, Clientes clientes) {
 		super();
 		this.datalancamento = datalancamento;
 		this.descricao = descricao;
-		this.type = type;
+		this.tipo = tipo;
 		this.valor = valor;
 		this.clientes = clientes;
 	}

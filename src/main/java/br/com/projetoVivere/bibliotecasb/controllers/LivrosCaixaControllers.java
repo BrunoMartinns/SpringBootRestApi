@@ -1,65 +1,59 @@
 package br.com.projetoVivere.bibliotecasb.controllers;
 
-import java.time.Instant;
-import java.util.Date;
-import java.util.Optional;
+import java.util.List;
 
-import javax.transaction.Transactional;
-
+import br.com.projetoVivere.bibliotecasb.dto.LivrosCaixaDTO;
+import br.com.projetoVivere.bibliotecasb.service.LivrosCaixaService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
-import br.com.projetoVivere.bibliotecasb.models.Clientes;
 import br.com.projetoVivere.bibliotecasb.models.LivrosCaixa;
-import br.com.projetoVivere.bibliotecasb.repository.ClientesRepository;
-import br.com.projetoVivere.bibliotecasb.repository.LivrosCaixaRepository;
 
-@Controller
+@RestController
+@RequestMapping("/api/livrosCaixa")
 public class LivrosCaixaControllers {
 	
+
 	@Autowired
-	private LivrosCaixaRepository livrosCaixaRepository;
-	@Autowired
-	private ClientesRepository clientesRepository;
-	
-	
-	@Transactional
-	public @ResponseBody LivrosCaixa inserirLivrosCaixa(LivrosCaixa livrosCaixa) {
-		Clientes clientes = clientesRepository.findById(livrosCaixa.getClientes().getId());
-		LivrosCaixa caixaLivros = new LivrosCaixa(livrosCaixa.getDatalancamento(), livrosCaixa.getDescricao(), livrosCaixa.getType(), livrosCaixa.getValor(), clientes);
-		caixaLivros = livrosCaixaRepository.save(livrosCaixa);
-		return caixaLivros;
+	private LivrosCaixaService livrosCaixaService;
+
+	@PostMapping()
+	public ResponseEntity<LivrosCaixa> inserirLivrosCaixa(LivrosCaixaDTO livrosCaixaDTO) {
+		LivrosCaixa caixaLivros = livrosCaixaService.inserirLivrosCaixa(livrosCaixaDTO);
+		return ResponseEntity.ok().body(caixaLivros);
 	}
 	
-	@PutMapping
-	public LivrosCaixa editarLivrosCaixa(LivrosCaixa livrosCaixa) {
-		livrosCaixaRepository.findById(livrosCaixa.getId());
-		Clientes clientes = clientesRepository.findById(livrosCaixa.getClientes().getId());
-		Date dt = Date.from(Instant.now());
-		clientes.setDataCadastro(dt);
-		livrosCaixa = livrosCaixaRepository.save(livrosCaixa);
-		return livrosCaixaRepository.save(livrosCaixa);
+	@PutMapping()
+	public ResponseEntity<LivrosCaixa> editarLivrosCaixa(@RequestBody LivrosCaixaDTO livrosCaixaDTO) {
+		LivrosCaixa livrosCaixa = livrosCaixaService.editarLivrosCaixa(livrosCaixaDTO);
+		return ResponseEntity.ok().body(livrosCaixa);
 	}
 	
-	@DeleteMapping
-	public void excluirLivrosCaixa(LivrosCaixa livrosCaixa) {
-		livrosCaixaRepository.delete(livrosCaixa);
+	@DeleteMapping("/delete/{id}")
+	public ResponseEntity<LivrosCaixa> excluirLivrosCaixa( LivrosCaixa livrosCaixa) {
+		livrosCaixaService.excluirLivrosCaixa(livrosCaixa);
+		return ResponseEntity.noContent().build();
 	}
 	
-	@GetMapping(name="/{id}")
-	public Optional<LivrosCaixa> buscarLivroCaixaId(@PathVariable(value= "id")long id){
-		return livrosCaixaRepository.findById((int) id);
+	@GetMapping(value="/id/{id}")
+	public ResponseEntity<LivrosCaixa> buscarLivroCaixa(@PathVariable(value= "id")int id){
+		LivrosCaixa livrosCaixa = livrosCaixaService.buscarLivroCaixaId(id);
+		return ResponseEntity.ok().body(livrosCaixa);
 	}
 	
-	@GetMapping(name="/{idCliente}")
-	public Optional<LivrosCaixa> buscarLivroCaixaIdCliente(@PathVariable(value= "nome") long idCliente){
-		LivrosCaixa livrosCaixa;
-		return livrosCaixaRepository.findByIdCliente(clientesRepository.findById((int) idCliente));
+	@GetMapping(value="/idclientes/{id}")
+	public ResponseEntity<List<LivrosCaixa>> buscarLivroCaixaIdCliente(@PathVariable(value ="id") int idClientes){
+		List<LivrosCaixa> livrosCaixa = livrosCaixaService.ByclientId(idClientes);
+		return ResponseEntity.ok().body(livrosCaixa);
 	}
+
+//	@GetMapping("/clientId/{id}")
+//	public ResponseEntity < List <Cashbook>>  getCashbookByClientId(@PathVariable(value = "id") int client) {
+//		List <Cashbook> cashS = cashbookService.ByclientId(client);
+//
+//		return ResponseEntity.ok().body(cashS);
+//
+//	}
 
 }
