@@ -12,9 +12,8 @@ import org.springframework.stereotype.Repository;
 public interface ClientesRepository extends JpaRepository<Clientes, Integer> {
 
 	Clientes findByCpfCnpj(String cpfCnpj);
-	//Clientes findByCidade(String cidade);
 
-	public Iterable<Clientes> findByCidadeContaining(String cidade);
+	List<Clientes> findByCidadeContaining(String cidade);
 	
 	
 

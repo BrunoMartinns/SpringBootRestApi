@@ -8,6 +8,9 @@ import javax.persistence.*;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import lombok.Data;
+
+@Data
 @Entity
 @Table(name="livrosCaixa")
 public class LivrosCaixa implements Serializable {
@@ -33,63 +36,12 @@ public class LivrosCaixa implements Serializable {
 	
 	@ManyToOne
 	@JsonIgnore
+	@JoinColumn(name = "clientes_id") 
 	private Clientes clientes;
-
-
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
-
-	public Date getDatalancamento() {
-		return datalancamento;
-	}
-
-	public void setDatalancamento(Date datalancamento) {
-		this.datalancamento = datalancamento;
-	}
-
-	public String getDescricao() {
-		return descricao;
-	}
-
-	public void setDescricao(String descricao) {
-		this.descricao = descricao;
-	}
-
-	public String getTipo() {
-		return tipo;
-	}
-
-	public void setTipo(String tipo) {
-		this.tipo = tipo;
-	}
-
-	public float getValor() {
-		return valor;
-	}
-
-	public void setValor(float valor) {
-		this.valor = valor;
-	}
-
-	public Clientes getClientes() {
-		return clientes;
-	}
-
-	public void setClientes(Clientes clientes) {
-		this.clientes = clientes;
-	}
-
 	
+	public LivrosCaixa() {
+    }
 	
-	public LivrosCaixa () {
-		
-	}
-
 	public LivrosCaixa(Integer id, Date datalancamento, String descricao, String tipo, float valor, Clientes clientes) {
 		this.id = id;
 		this.datalancamento = datalancamento;
@@ -108,10 +60,5 @@ public class LivrosCaixa implements Serializable {
 		this.valor = valor;
 		this.clientes = clientes;
 	}
-	
-	
-	
-	
-	
 	
 }

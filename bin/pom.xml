@@ -10,9 +10,9 @@
 	</parent>
 	<groupId>br.com.projetoVivere</groupId>
 	<artifactId>biblioteca-sb</artifactId>
-	<version>0.0.3-SNAPSHOT</version>
+	<version>0.0.1-SNAPSHOT</version>
 	<name>biblioteca-sb</name>
-	<description>API Contabil do Projeto Vivere</description>
+	<description>API para uma Biblioteca do Projeto Vivere</description>
 	<properties>
 		<java.version>11</java.version>
 	</properties>
